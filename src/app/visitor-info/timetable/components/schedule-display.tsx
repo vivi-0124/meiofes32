@@ -163,14 +163,14 @@ const eventsData: Record<string, Event[]> = {
 };
 
 // カテゴリ別の色
-const categoryColors: Record<string, string> = {
+const categoryColors: Record<string, 'festival' | 'default' | 'secondary' | 'outline' | 'destructive'> = {
   'メインイベント': 'festival',
   'パフォーマンス': 'default',
   'トークショー': 'secondary',
   '展示・体験': 'outline',
   'コンテスト': 'destructive',
   '飲食': 'secondary'
-};
+} as const;
 
 // 時間枠ごとのイベント表示コンポーネント
 function TimeSlotEvents({
@@ -182,7 +182,7 @@ function TimeSlotEvents({
   events: Event[];
   showDescription: string | null;
   toggleDescription: (id: string) => void;
-  categoryColors: Record<string, string>;
+  categoryColors: Record<string, 'festival' | 'default' | 'secondary' | 'outline' | 'destructive'>;
 }) {
   if (events.length === 0) {
     return <div className="text-muted-foreground text-sm py-2 px-4">この時間のイベントはありません</div>;
@@ -198,7 +198,7 @@ function TimeSlotEvents({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex-grow">
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <Badge variant={categoryColors[event.category] as any || 'secondary'}>
+                <Badge variant={categoryColors[event.category] || 'secondary'}>
                   {event.category}
                 </Badge>
                 <span className="text-sm text-muted-foreground flex items-center">

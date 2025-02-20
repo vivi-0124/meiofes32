@@ -60,19 +60,26 @@ export function formatFileSize(bytes: number): string {
 /**
  * Deep merge objects
  */
-export function deepMerge<T extends Record<string, any>>(target: T, source: Record<string, any>): T {
-  const output = { ...target };
+export function deepMerge<T extends Record<string, unknown>>(target: T, source: Record<string, unknown>): T {
+  const output = { ...target } as T;
   
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach(key => {
-      if (isObject(source[key])) {
+      const sourceValue = source[key];
+      if (isObject(sourceValue)) {
         if (!(key in target)) {
-          (output as any)[key] = source[key];
+          (output as Record<string, unknown>)[key] = sourceValue;
         } else {
-          (output as any)[key] = deepMerge(target[key], source[key]);
+          const targetValue = target[key];
+          if (isObject(targetValue)) {
+            (output as Record<string, unknown>)[key] = deepMerge(
+              targetValue as Record<string, unknown>,
+              sourceValue as Record<string, unknown>
+            );
+          }
         }
       } else {
-        (output as any)[key] = source[key];
+        (output as Record<string, unknown>)[key] = sourceValue;
       }
     });
   }
@@ -90,7 +97,7 @@ function isObject(item: unknown): item is object {
 /**
  * Debounce function
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait = 300
 ): (...args: Parameters<T>) => void {
@@ -123,7 +130,7 @@ export function getBrowserLanguage(): string {
 export function safeJsonParse<T>(json: string, fallback: T): T {
   try {
     return JSON.parse(json) as T;
-  } catch (error) {
+  } catch {
     return fallback;
   }
 }
