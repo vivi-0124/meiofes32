@@ -33,8 +33,6 @@ const scheduleData = {
 };
 
 export function ScheduleHighlight() {
-  const [activeDay, setActiveDay] = useState('day1');
-
   return (
     <section className="py-16 md:py-24 bg-background">
       <div className="container">
@@ -51,7 +49,7 @@ export function ScheduleHighlight() {
           </Button>
         </div>
 
-        <Tabs defaultValue="day1" className="w-full" onValueChange={setActiveDay}>
+        <Tabs defaultValue="day1" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="day1">6月1日 (1日目)</TabsTrigger>
             <TabsTrigger value="day2">6月2日 (2日目)</TabsTrigger>

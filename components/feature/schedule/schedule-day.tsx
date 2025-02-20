@@ -1,5 +1,7 @@
 import { Badge } from '@/../components/ui/badge';
-import { CalendarClock, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
+
+type BadgeVariant = 'festival' | 'default' | 'secondary' | 'outline' | 'destructive';
 
 interface Event {
   time: string;
@@ -13,7 +15,7 @@ interface ScheduleDayProps {
 }
 
 export function ScheduleDay({ events }: ScheduleDayProps) {
-  const getCategoryColor = (category: string) => {
+  const getCategoryColor = (category: string): BadgeVariant => {
     switch (category) {
       case 'メイン':
         return 'festival'; // フェスティバル用の赤/ピンク
@@ -59,7 +61,7 @@ export function ScheduleDay({ events }: ScheduleDayProps) {
             </div>
             
             <div className="flex-shrink-0">
-              <Badge variant={getCategoryColor(event.category) as any}>
+              <Badge variant={getCategoryColor(event.category)}>
                 {event.category}
               </Badge>
             </div>
