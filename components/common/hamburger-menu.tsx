@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Search, ChevronRight } from 'lucide-react';
+import { Menu, Search, ChevronRight } from 'lucide-react';
 import { Button } from '@/../components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/../components/ui/sheet';
 import { Input } from '@/../components/ui/input';

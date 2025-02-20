@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/../components/ui/tabs';
 import { ScheduleDay } from '@/../components/feature/schedule/schedule-day';
 import { Button } from '@/../components/ui/button';
