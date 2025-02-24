@@ -40,12 +40,15 @@ export function ScheduleHighlight() {
             <h2 className="text-3xl font-bold tracking-tight mb-2">イベントスケジュール</h2>
             <p className="text-muted-foreground">3日間で行われる主要イベントのスケジュール</p>
           </div>
-          <Button variant="outline" className="mt-4 md:mt-0" asChild>
-            <Link href="/timetable">
+          <Link 
+            href="/timetable" 
+            className="inline-flex items-center justify-center h-10 px-4 py-2 mt-4 md:mt-0 text-sm font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <div className="flex items-center">
               <span>詳細スケジュール</span>
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+            </div>
+          </Link>
         </div>
 
         <Tabs defaultValue="day1" className="w-full">

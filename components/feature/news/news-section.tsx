@@ -40,12 +40,15 @@ export function NewsSection() {
             <h2 className="text-3xl font-bold tracking-tight mb-2">最新情報</h2>
             <p className="text-muted-foreground">大学祭に関する最新のお知らせをチェックしよう</p>
           </div>
-          <Button variant="outline" className="mt-4 md:mt-0" asChild>
-            <Link href="/news" className="flex items-center">
+          <Link 
+            href="/news" 
+            className="inline-flex items-center justify-center h-10 px-4 py-2 mt-4 md:mt-0 text-sm font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <span className="flex items-center">
               お知らせ一覧
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+            </span>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

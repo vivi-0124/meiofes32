@@ -60,13 +60,15 @@ export function GuidelinesSection() {
         </div>
 
         <div className="flex justify-center">
-          <Button size="lg" variant="festival" asChild>
-            <Link href="/visitor-guidelines">
-              <ButtonContent icon={<ArrowRight className="h-4 w-4" />}>
-                詳しい案内を見る
-              </ButtonContent>
-            </Link>
-          </Button>
+          <Link 
+            href="/visitor-guidelines"
+            className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium text-white bg-[#E84D8A] rounded-md hover:bg-[#E84D8A]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          >
+            <span className="flex items-center">
+              詳しい案内を見る
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
+          </Link>
         </div>
       </div>
     </section>

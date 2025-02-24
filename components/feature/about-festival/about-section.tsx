@@ -67,13 +67,15 @@ export function AboutSection() {
               伝統と革新が融合した3日間の祭典で、あなただけの思い出を作りませんか？
             </p>
           </div>
-          <Button variant="outline" size="lg" asChild>
-            <Link href="/about">
-              <ButtonContent icon={<ArrowRight className="h-4 w-4" />}>
-                もっと詳しく知る
-              </ButtonContent>
-            </Link>
-          </Button>
+          <Link 
+            href="/about"
+            className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            <span className="flex items-center">
+              もっと詳しく知る
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
+          </Link>
         </div>
       </div>
     </section>

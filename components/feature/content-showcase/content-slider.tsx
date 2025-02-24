@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Button } from '@/../components/ui/button';
-import { ContentCard } from '@/../components/feature/content-showcase/content-card';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { Card } from '@/../components/ui/card';
 
 const contentCards = [
   {
@@ -63,85 +63,115 @@ const contentCards = [
   },
 ];
 
-export function ContentSlider() {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const checkScrollButtons = () => {
-    if (sliderRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10); // 10px margin for rounding errors
-    }
+interface ContentSliderProps {
+  title?: string;
+  description?: string;
+  cta?: {
+    label: string;
+    link: string;
   };
+  items?: Array<{
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string | null;
+    link: string;
+    color: string;
+    icon: React.ReactNode;
+  }>;
+}
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (slider) {
-      checkScrollButtons();
-      slider.addEventListener('scroll', checkScrollButtons);
-      window.addEventListener('resize', checkScrollButtons);
-      
-      return () => {
-        slider.removeEventListener('scroll', checkScrollButtons);
-        window.removeEventListener('resize', checkScrollButtons);
-      };
-    }
-  }, []);
-
+export function ContentSlider({ 
+  title = "コンテンツハイライト", 
+  description = "3日間で行われる様々な企画をチェックしよう", 
+  cta, 
+  items = contentCards 
+}: ContentSliderProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+  
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
     }
   };
 
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-    }
-  };
+  // 安全対策: itemsが配列でない場合のフォールバック
+  const safeItems = Array.isArray(items) ? items : contentCards;
 
   return (
-    <section className="py-16 bg-background">
+    <section className="py-16 md:py-24">
       <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight mb-2">コンテンツハイライト</h2>
-            <p className="text-muted-foreground">3日間で行われる様々な企画をチェックしよう</p>
-          </div>
-          <div className="flex space-x-2 mt-4 md:mt-0">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollLeft}
-              disabled={!canScrollLeft}
-              aria-label="前へスクロール"
-              className="rounded-full"
+        <div className="mb-8 max-w-xl">
+          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+            {title}
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            {description}
+          </p>
+          {cta && (
+            <Link 
+              href={cta.link} 
+              className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
             >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollRight}
-              disabled={!canScrollRight}
-              aria-label="次へスクロール"
-              className="rounded-full"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
+              <span>{cta.label}</span>
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          )}
         </div>
 
-        <div 
-          ref={sliderRef}
-          className="flex space-x-4 overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {contentCards.map((card) => (
-            <ContentCard key={card.id} card={card} />
-          ))}
+        <div className="relative">
+          <div className="flex items-center justify-end gap-2 mb-4">
+            <button
+              onClick={scrollLeft}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              aria-label="前のアイテムへスクロール"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={scrollRight}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              aria-label="次のアイテムへスクロール"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+          
+          <div 
+            ref={containerRef}
+            className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x"
+          >
+            {safeItems.map((item) => (
+              <div key={item.id} className="snap-start flex-shrink-0 w-[280px] sm:w-[320px]">
+                <Link href={item.link} className="h-full">
+                  <Card className="h-full overflow-hidden hover:shadow-md transition-all duration-200 hover:translate-y-[-4px]">
+                    <div className={`w-full h-32 bg-gradient-to-br ${item.color} flex items-center justify-center`}>
+                      <div className="w-16 h-16 flex items-center justify-center">
+                        {item.icon}
+                      </div>
+                    </div>
+                    
+                    <div className="p-4">
+                      <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {item.description}
+                      </p>
+                      <div className="flex items-center text-sm font-medium text-primary">
+                        <span>詳細を見る</span>
+                        <ArrowRight className="ml-1 h-4 w-4" />
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

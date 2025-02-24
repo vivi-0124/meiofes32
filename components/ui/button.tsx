@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/../lib/utils/helpers";
 import { LoadingSpinner } from "./loading-spinner";
 
@@ -41,82 +42,37 @@ interface BaseButtonProps extends ButtonVariants {
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, BaseButtonProps {}
 
-interface LinkButtonProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps>, BaseButtonProps {
-  href: string;
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
-  const {
-    className,
-    variant,
-    size,
-    isLoading = false,
-    leftIcon,
-    rightIcon,
-    children,
-    disabled,
-    ...rest
-  } = props;
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps
+>(({ className, variant, size, isLoading = false, leftIcon, rightIcon, children, disabled, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button";
+  const styles = cn(
+    buttonVariants({ variant, size, className }),
+    isLoading ? "cursor-wait" : ""
+  );
 
   return (
-    <button
-      className={cn(buttonVariants({ variant, size, className }), 
-        isLoading ? "cursor-wait" : ""
-      )}
+    <Comp
+      className={styles}
       ref={ref}
       disabled={disabled || isLoading}
-      {...rest}
+      {...props}
     >
       {isLoading && (
-        <LoadingSpinner 
-          size="sm" 
+        <LoadingSpinner
+          size="sm"
           className="mr-2 border-current/30 border-t-current"
         />
       )}
       {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
       {children}
       {rightIcon && <span className="ml-2">{rightIcon}</span>}
-    </button>
-  );
-});
-
-const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>((props, ref) => {
-  const {
-    className,
-    variant,
-    size,
-    isLoading = false,
-    leftIcon,
-    rightIcon,
-    children,
-    href,
-    ...rest
-  } = props;
-
-  return (
-    <a
-      className={cn(buttonVariants({ variant, size, className }), 
-        isLoading ? "cursor-wait" : ""
-      )}
-      ref={ref}
-      href={href}
-      {...rest}
-    >
-      {isLoading && (
-        <LoadingSpinner 
-          size="sm" 
-          className="mr-2 border-current/30 border-t-current"
-        />
-      )}
-      {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
-    </a>
+    </Comp>
   );
 });
 
 Button.displayName = "Button";
-LinkButton.displayName = "LinkButton";
 
-export { Button, LinkButton, buttonVariants };
-export type { ButtonProps, LinkButtonProps, ButtonVariants };
+export { Button, buttonVariants };
+export type { ButtonProps, ButtonVariants };

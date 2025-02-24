@@ -1,4 +1,5 @@
 import { Button } from '@/../components/ui/button';
+import { buttonVariants } from '@/../components/ui/button';
 import { Calendar, MapPin, Clock } from 'lucide-react';
 import Link from 'next/link';
 
@@ -19,20 +20,18 @@ export function HeroSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
-              <Button size="lg" variant="festival" asChild>
-                <Link href="/visitor-guidelines">
-                  <span className="flex items-center">
-                    来場案内を見る
-                  </span>
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" asChild>
-                <Link href="/timetable">
-                  <span className="flex items-center">
-                    タイムテーブルを見る
-                  </span>
-                </Link>
-              </Button>
+              <Link 
+                href="/visitor-guidelines"
+                className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium text-white bg-[#E84D8A] rounded-md hover:bg-[#E84D8A]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              >
+                来場案内を見る
+              </Link>
+              <Link 
+                href="/timetable"
+                className="inline-flex items-center justify-center h-11 px-8 py-2 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                タイムテーブルを見る
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
